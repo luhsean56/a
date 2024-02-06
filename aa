@@ -1,0 +1,207 @@
+local Bloxburg_GUI = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Frame_2 = Instance.new("Frame")
+local AutoFarm = Instance.new("TextButton")
+local Info = Instance.new("TextLabel")
+local CLOSE = Instance.new("TextButton")
+local Credit = Instance.new("TextLabel")
+
+
+--Properties, Credits TheMasterKidOwner--
+
+Bloxburg_GUI.Name = "Bloxburg_GUI"
+Bloxburg_GUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Bloxburg_GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = Bloxburg_GUI
+Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 0.000
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.925454557, 0, 0.499393195, 0)
+Frame.Size = UDim2.new(0, 210, 0, 222)
+
+Frame_2.Parent = Frame
+Frame_2.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BackgroundTransparency = 0.500
+Frame_2.Position = UDim2.new(0.499221087, 0, 0.499458939, 0)
+Frame_2.Size = UDim2.new(0, 192, 0, 202)
+
+AutoFarm.Name = "AutoFarm"
+AutoFarm.Parent = Frame_2
+AutoFarm.AnchorPoint = Vector2.new(0.5, 0.5)
+AutoFarm.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoFarm.BackgroundTransparency = 0.700
+AutoFarm.BorderColor3 = Color3.fromRGB(107, 107, 107)
+AutoFarm.BorderSizePixel = 4
+AutoFarm.Position = UDim2.new(0.497575104, 0, 0.212871283, 0)
+AutoFarm.Size = UDim2.new(0, 175, 0, 42)
+AutoFarm.Font = Enum.Font.TitilliumWeb
+AutoFarm.Text = "AutoFarm"
+AutoFarm.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoFarm.TextSize = 17.000
+AutoFarm.TextStrokeColor3 = Color3.fromRGB(135, 135, 135)
+AutoFarm.TextTransparency = 0.200
+AutoFarm.TextWrapped = true
+
+Info.Name = "Info"
+Info.Parent = Frame_2
+Info.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Info.BackgroundTransparency = 0.700
+Info.BorderColor3 = Color3.fromRGB(107, 107, 107)
+Info.BorderSizePixel = 5
+Info.Position = UDim2.new(0.0446683578, 0, 0.663366318, 0)
+Info.Size = UDim2.new(0, 175, 0, 60)
+Info.Font = Enum.Font.SourceSansSemibold
+Info.Text = "Rack'n Roll Exploit"
+Info.TextColor3 = Color3.fromRGB(255, 255, 255)
+Info.TextSize = 20.000
+Info.TextWrapped = true
+Info.TextXAlignment = Enum.TextXAlignment.Left
+Info.TextYAlignment = Enum.TextYAlignment.Top
+
+CLOSE.Name = "CLOSE"
+CLOSE.Parent = Frame
+CLOSE.AnchorPoint = Vector2.new(0.5, 0.5)
+CLOSE.BackgroundColor3 = Color3.fromRGB(127, 10, 0)
+CLOSE.BackgroundTransparency = 0.400
+CLOSE.BorderColor3 = Color3.fromRGB(75, 0, 0)
+CLOSE.BorderSizePixel = 0
+CLOSE.Position = UDim2.new(0.49695614, 0, -0.0953107178, 0)
+CLOSE.Size = UDim2.new(0, 209, 0, 25)
+CLOSE.Font = Enum.Font.RobotoMono
+CLOSE.Text = "Exit Out of Exploit"
+CLOSE.TextColor3 = Color3.fromRGB(255, 255, 255)
+CLOSE.TextSize = 14.000
+
+--Scripts 
+
+local function JJVV_fake_script() --Closes the GUI. 
+	local script = Instance.new('LocalScript', CLOSE)
+
+	script.Parent.MouseButton1Down:Connect(function()
+		script.Parent.Parent.Visible = false
+	end)
+end
+coroutine.wrap(JJVV_fake_script)()
+--lolz
+
+local button = script.Parent
+
+local function onClick()
+    --[[
+        Bloxburg Script (Uh, good name right...?)
+        Meme: https://sperg.club/uploads/elFYKuMqdp9kRljM.png
+    ]]
+
+	-- Wait for game to load
+
+	repeat wait() until game:IsLoaded();
+
+	-- Define variables
+
+	local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LegoHacks/Utilities/main/UI.lua"))();
+
+	local workspace = game:GetService("Workspace");
+	local replicatedStorage = game:GetService("ReplicatedStorage");
+	local tweenService = game:GetService("TweenService");
+	local players = game:GetService("Players");
+	local client = players.LocalPlayer;
+
+	-- Main script
+
+	local stats = replicatedStorage.Stats[client.Name];
+	local dataManager = require(replicatedStorage.Modules.DataManager);
+	local jobManager = require(client.PlayerGui.MainGUI.Scripts.JobManager);
+
+	local function fireServer(data)
+		local oldI = getfenv(dataManager.FireServer).i;
+		getfenv(dataManager.FireServer).i = function() end; --> Get around their shit "security"
+		dataManager:FireServer(data);
+		getfenv(dataManager.FireServer).i = oldI; --> Restore original function
+	end;
+
+	local function getOrder(customer)
+		if (not customer or (customer and not customer:FindFirstChild("Order"))) then return end;
+
+		if (stats.Job.Value == "StylezHairdresser") then
+			local style = customer.Order:WaitForChild("Style").Value;
+			local colour = customer.Order:WaitForChild("Color").Value;
+
+			return {style, colour};
+		elseif (stats.Job.Value == "BloxyBurgersCashier") then
+			local burger = customer.Order:WaitForChild("Burger").Value;
+			local fries = customer.Order:WaitForChild("Fries").Value;
+			local cola = customer.Order:WaitForChild("Cola").Value;
+
+			return {burger, fries, cola};
+		end;
+	end;
+
+	local bloxburg = library:CreateWindow("Bloxburg");
+
+	bloxburg:AddToggle({
+		text = "Stylez Hairdresser";
+		flag = "hairdresser";
+		callback = function(enabled)
+			if (not enabled) then return end;
+
+			if (stats.Job.Value ~= "StylezHairdresser") then
+				jobManager:GoToWork("StylezHairdresser"); --> TP to job
+			end;
+
+			repeat wait() until stats.Job.Value == "StylezHairdresser";
+			tweenService:Create(client.Character.HumanoidRootPart, TweenInfo.new(0.75, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(868.464783, 13.6776829, 174.983795, -0.999945581, -6.58446098e-08, -0.0104347449, -6.6522297e-08, 1, 6.45977494e-08, 0.0104347449, 6.52883756e-08, -0.999945581)}):Play();
+
+			while library.flags.hairdresser do
+				local workstations = workspace.Environment.Locations.StylezHairStudio.HairdresserWorkstations;
+				for i, v in next, workstations:GetChildren() do
+					if (v.Occupied.Value) then
+						fireServer({
+							Type = "FinishOrder";
+							Workstation = v;
+							Order = getOrder(v.Occupied.Value);
+						});
+					end;
+				end;
+				wait();
+			end;
+		end;
+	});
+
+	bloxburg:AddToggle({
+		text = "Bloxy Burgers Cashier";
+		flag = "cashier";
+		callback = function(enabled)
+			if (not enabled) then return end;
+
+			if (stats.Job.Value ~= "BloxyBurgersCashier") then
+				jobManager:GoToWork("BloxyBurgersCashier"); --> TP to job
+			end;
+
+			repeat wait() until stats.Job.Value == "BloxyBurgersCashier";
+			tweenService:Create(client.Character.HumanoidRootPart, TweenInfo.new(0.75, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(825.076355, 13.6776829, 276.091309, 0.0133343497, -5.09454665e-08, -0.999910772, 7.34347916e-09, 1, -5.08520621e-08, 0.999910772, -6.66474698e-09, 0.0133343497)}):Play();
+
+			while library.flags.cashier do
+				local workstations = workspace.Environment.Locations.BloxyBurgers.CashierWorkstations;
+				for i, v in next, workstations:GetChildren() do
+					if (v.Occupied.Value) then
+						fireServer({
+							Type = "FinishOrder";
+							Workstation = v;
+							Order = getOrder(v.Occupied.Value);
+						});
+					end;
+				end;
+				wait();
+			end;
+		end;
+	});
+
+	-- Load library
+
+	library:Init();
+end
+
+button.MouseButton1Click:Connect(onClick)
